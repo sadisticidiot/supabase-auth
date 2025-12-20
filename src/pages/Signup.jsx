@@ -95,7 +95,7 @@ export default function Signup(){
             email,
             password,
             options: {
-                emailRedirectTo: "http://localhost:5173/login",
+                emailRedirectTo: `${window.location.origin}/dashboard`,
                 data: {
                     first_name: firstName,
                     last_name: lastName,
