@@ -1,0 +1,153 @@
+import { useEffect, useState } from "react"
+import SignupInputs from "../logic/SignupInputs"
+import { supabase } from "../supabase-client"
+import SubmitBtn from "../ui/SubmitBtn"
+import { Link, useNavigate } from "react-router-dom"
+import verifyImg from "/Icon.png"
+
+export default function Signup(){    
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [confirmPass, setConfirmPass] = useState("")
+
+    const [error, setError] = useState("")
+    const [submitted, setSubmitted] = useState(false)
+    const [loading, setLoading] = useState(false)
+
+
+    //Props passed down for inputs
+    const input = { 
+        firstName, setFirstName, lastName, setLastName,
+        email, setEmail, 
+        password, setPassword, confirmPass, setConfirmPass,
+        setError
+    }
+
+    //Auto clear error after 6s
+    useEffect(() => {
+        if (!error) return
+
+        const timer = setTimeout(() => setError(""), 6000)
+        return () => clearTimeout(timer)
+    }, [error])
+
+    //VALIDATIONS
+    const validNames = () => {
+        const nameRegex = /^[A-Z][a-zA-Z-' ]*$/ 
+
+        if (!firstName.trim() || !lastName.trim()) {
+            setError("First and last name are required.")
+            return false
+        } else if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+            setError("Names must start with a capital letter and cotain only letters.")
+            return false
+        }
+        return true
+    }
+    const validEmail = () => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!regex.test(email)) {
+            setError("Invalid email address.")
+            return false
+        }
+        return true
+    }
+    const validPassword = () => {
+        if (password.length === 0) {
+            setError("Invalid password. Password cannot be empty.")
+            return false
+        } else if (password.length < 8) {
+            setError("Password is too short. Must be at least 8 characters.")
+            return false
+        } else if (!/[A-Z]/.test(password)) {
+            setError("Password must include at least one uppercase letter.")
+            return false
+        }
+        return true
+    }
+    const validConfirmPass = () => {
+        if (password !== confirmPass) {
+            setError("Password do not match.")
+            return false
+        }
+        return true
+    }
+
+    //Handle signup
+    const handleSignup = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+
+        if (
+            !validNames() || 
+            !validEmail() || 
+            !validPassword() || 
+            !validConfirmPass()
+        ) {
+            setLoading(false)
+            return
+        }
+
+        //Signup
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: "http://localhost:5173/login",
+                data: {
+                    first_name: firstName,
+                    last_name: lastName,
+                },
+            },
+        })
+
+        if (error) {
+            setError(error.message)
+            setLoading(false)
+            return
+        }
+        setLoading(false)
+        setSubmitted(true)
+    }
+
+    function Verification(){
+        return(
+            <div className="form-base">
+                <div className="parent-base">
+                    <img src={verifyImg} />
+                    <h1>Verify your email</h1>
+                    <span>Click the link sent to {email}.</span>
+                </div>
+            </div>
+        )
+    }
+
+
+    return(
+        <>
+            {submitted
+                ? (
+                <Verification />
+                ) : (
+                    <form 
+                        autoComplete="on" 
+                        onSubmit={handleSignup} 
+                        className="form-base"
+                    >
+                        <div 
+                            className="parent-base">
+                            <h1>Create your account</h1>
+                            <SignupInputs {...input} />
+                            {error && <p className="text-red-400">{error}</p>}
+                            <SubmitBtn variant="signup" loading={loading} />
+                            <Link to="/login" className="text-sm text-neutral-100/20 hover:text-blue-500 hover:underline">Log In</Link>
+                        </div>
+                    </form>
+                )}
+
+
+        </>
+    )
+}
