@@ -11,9 +11,13 @@ export default function SubmitBtn({variant = "", loading = false }) {
             idle: "Sign up",
             loading: "Signing up..."
         },
-        reset: {
-            idle: "Reset Password",
+        forgot : {
+            idle: "Submit Email",
             loading: "Sending Reset Email..."
+        },
+        reset: {
+            idle: "Change Password",
+            loading: "Updating..."
         }
     }
 

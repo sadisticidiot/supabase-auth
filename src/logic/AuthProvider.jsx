@@ -10,7 +10,8 @@ const AuthContext = createContext(null)
  */
 async function ensureProfile(user) {
   // 1. Try to fetch existing profile
-  const { data: existingProfile, error } = await supabase
+  try {
+    const { data: existingProfile } = await supabase
     .from("profiles")
     .select("first_name, last_name")
     .eq("user_id", user.id)
@@ -45,6 +46,10 @@ async function ensureProfile(user) {
     .single()
 
   return newProfile
+  } catch (err) {
+    console.error("Failed to ensure profile:", err)
+    return null
+  }
 }
 
 export function AuthProvider({ children }) {
@@ -55,34 +60,38 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Runs on initial app load
     const init = async () => {
-      const { data } = await supabase.auth.getSession()
-      const session = data.session
-      setSession(session)
-
-      if (session?.user) {
-        const profile = await ensureProfile(session.user)
-        setProfile(profile)
-      }
-
-      setLoading(false)
-    }
-
-    init()
-
-    // Runs on login/logout
-    const { data: { subscription } } =
-      supabase.auth.onAuthStateChange(async (_event, session) => {
+      try {
+        const { data } = await supabase.auth.getSession()
+        const session = data.session
         setSession(session)
 
         if (session?.user) {
           const profile = await ensureProfile(session.user)
           setProfile(profile)
-        } else {
-          setProfile(null)
         }
-      })
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    return () => subscription.unsubscribe()
+      init()
+
+      // Runs on login/logout
+      const { data: { subscription } } =
+        supabase.auth.onAuthStateChange(async (_event, session) => {
+          setSession(session)
+
+          if (session?.user) {
+            const profile = await ensureProfile(session.user)
+            setProfile(profile)
+          } else {
+            setProfile(null)
+          }
+        })
+
+      return () => subscription.unsubscribe()
   }, [])
 
   return (

@@ -28,16 +28,6 @@ export default function Landing(){
       setError(error.message)
     }
   }
-
-  if (loading) {
-    return(
-      <div className="form-base">
-        <div className="parent-base">
-          <h1>Loading... please wait.</h1>
-        </div>
-      </div>
-    )
-  }
   
   return(
     <div className="form-base">

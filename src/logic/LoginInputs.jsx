@@ -7,7 +7,7 @@ export default function LoginInputs({ email, setEmail, password, setPassword, se
                 value={email}
                 onChange={(e) => {
                     setEmail(e.target.value)
-                    setError()
+                    setError("")
                 }}
                 type="email"
                 placeholder="Email or phone"
@@ -18,7 +18,7 @@ export default function LoginInputs({ email, setEmail, password, setPassword, se
                 value={password}
                 onChange={(e) => {
                     setPassword(e.target.value) 
-                    setError()
+                    setError("")
                 }}
                 type="password"
                 placeholder="Password"
