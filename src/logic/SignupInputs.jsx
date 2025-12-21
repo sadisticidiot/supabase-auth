@@ -8,7 +8,7 @@ export default function SignupInputs({
 }){
     return(
             <>
-                <div className="flex gap-3 mb-4 w-full">
+                <div className="flex gap-3 mb-2 w-full">
                     <BaseInput
                         value={firstName}
                         onChange={(e) => {

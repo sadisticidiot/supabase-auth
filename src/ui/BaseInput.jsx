@@ -1,3 +1,4 @@
+import clsx from "clsx";
 
 export default function BaseInput({
     value,
@@ -6,17 +7,23 @@ export default function BaseInput({
     placeholder,
     name,
     autoComplete,
-    className = ""
+    className = "",
+    disabled
 }){
     return(
         <input
+            disabled={disabled}
             value={value}
             onChange={onChange}
             type={type}
             placeholder={placeholder}
             name={name}
             autoComplete={autoComplete}
-            className ={`input-base ${className}`}
+            className ={clsx(
+                "input-base",
+                {"bg-neutral-700 text-neutral-900 inset-shadow-none cursor-not-allowed": disabled,}, 
+                className
+            )}
         />
     )
 }

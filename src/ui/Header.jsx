@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import BaseInput from "./BaseInput"
 import placeholder from "/Group 1.png"
-import { useAuth } from "../logic/AuthProvider"
 import Dropdown from "./Dropdown"
 
-export default function Header() {
+export default function Header({ first_name, last_name }) {
 
     const [isDropdown, setIsDropdown] = useState(false)
     const dropdownRef = useRef(null)
@@ -39,7 +38,7 @@ export default function Header() {
                     />
 
                     {isDropdown && (
-                        <Dropdown />
+                        <Dropdown first_name={first_name} last_name={last_name} />
                     )}
                 </div>
         </header>

@@ -2,19 +2,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../logic/AuthProvider";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase-client";
-import google from '/Icon.png'
 
 export default function Landing(){
   const [error, setError] = useState()
 
-  const { session, loading } = useAuth()
+  const { session } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && session) {
+    if (session) {
       navigate("/dashboard", { replace: true })
     }
-  }, [session, loading])
+  }, [])
 
   const handleGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -32,7 +31,7 @@ export default function Landing(){
   return(
     <div className="form-base">
       <div className="parent-base">
-        <h1>Welcome!</h1>
+        <h1>Welcome, nerd.</h1>
         
         <Link to="/login" className="button-base">Log in</Link>
         <Link to="/signup" className="button-base">Sign up</Link>
@@ -44,7 +43,6 @@ export default function Landing(){
         </div>
 
         <button onClick={handleGoogle} className="button-base flex gap-2 items-center justify-center">
-          <img src={google} />
           Continue with google
         </button>
         {error && <p className="text-red-400">{error}</p>}

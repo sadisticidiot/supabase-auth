@@ -3,6 +3,10 @@ import clsx from "clsx"
 export default function SubmitBtn({variant = "", loading = false }) {
 
     const labels = {
+        google: {
+            idle: "Continue with Google",
+            loading: ""
+        },
         login: {
             idle: "Log in",
             loading: "Logging in..."
@@ -32,12 +36,12 @@ export default function SubmitBtn({variant = "", loading = false }) {
                 "button-base",
                 "flex items-center gap-2 justify-center",
                 {
-                    "bg-neutral-900/50 cursor-not-allowed inset-shadow-neutral-900/60 scale-98 font-light": loading,
+                    "cursor-default border-none bg-neutral-950 text-white/50": loading,
                 }
             )}
         >
             {loading && (
-                <span className="size-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                <span className="spinner" />
             )}
             {label}
         </button>         

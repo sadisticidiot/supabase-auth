@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import SignupInputs from "../logic/SignupInputs"
 import { supabase } from "../supabase-client"
 import SubmitBtn from "../ui/SubmitBtn"
-import { Link, useNavigate } from "react-router-dom"
 import verifyImg from "/Icon.png"
+import AuthForm from "../logic/AuthForm"
 
 export default function Signup(){    
     const [email, setEmail] = useState("")
@@ -13,9 +13,11 @@ export default function Signup(){
     const [confirmPass, setConfirmPass] = useState("")
 
     const [error, setError] = useState("")
-    const [submitted, setSubmitted] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState("")
 
+    const [submitted, setSubmitted] = useState(false)
+    const [loading, setLoading] = useState("")
+    const [resending, setResending] = useState(false)
 
     //Props passed down for inputs
     const input = { 
@@ -61,9 +63,6 @@ export default function Signup(){
         } else if (password.length < 8) {
             setError("Password is too short. Must be at least 8 characters.")
             return false
-        } else if (!/[A-Z]/.test(password)) {
-            setError("Password must include at least one uppercase letter.")
-            return false
         }
         return true
     }
@@ -78,29 +77,24 @@ export default function Signup(){
     //Handle signup
     const handleSignup = async (e) => {
         e.preventDefault()
+        setError("")
         setLoading(true)
 
-        if (
-            !validNames() || 
-            !validEmail() || 
-            !validPassword() || 
-            !validConfirmPass()
-        ) {
+        if (!validNames() || !validEmail() || !validPassword() || !validConfirmPass()) {
             setLoading(false)
             return
         }
 
-        //Signup
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                emailRedirectTo: `${window.location.origin}/dashboard`,
+                emailRedirectTo: `${window.location.origin}/login`,
                 data: {
                     first_name: firstName,
                     last_name: lastName,
-                },
-            },
+                },   
+            }
         })
 
         if (error) {
@@ -112,6 +106,26 @@ export default function Signup(){
         setSubmitted(true)
     }
 
+    //Handle resend
+    const handleResend = async () => {
+        setResending(true)
+        setMessage("")
+
+        const { error } = await supabase.auth.resend({
+            type: "signup",
+            email,
+        })
+
+        if (error) {
+            setMessage(error.message)
+            setResending(false)
+            return
+        } else {
+            setMessage("Verification email resent.")
+        }
+        setResending(false)
+    }
+
     function Verification(){
         return(
             <div className="form-base">
@@ -119,6 +133,14 @@ export default function Signup(){
                     <img src={verifyImg} />
                     <h1>Verify your email</h1>
                     <span>Click the link sent to {email}.</span>
+                    <button 
+                        onClick={handleResend} 
+                        disabled={resending} 
+                        className="button-base"
+                    >
+                        {resending ? "Resending..." : "Resend verification email."}
+                    </button>
+                    {message && <p>{message}</p>}
                 </div>
             </div>
         )
@@ -131,19 +153,13 @@ export default function Signup(){
                 ? (
                 <Verification />
                 ) : (
-                    <form 
-                        autoComplete="on" 
-                        onSubmit={handleSignup} 
-                        className="form-base"
-                    >
-                        <div 
-                            className="parent-base">
-                            <h1>Create your account</h1>
-                            <SignupInputs {...input} />
-                            {error && <p className="text-red-400">{error}</p>}
-                            <SubmitBtn variant="signup" loading={loading} />
-                            <Link to="/login" className="text-sm text-neutral-100/20 hover:text-blue-500 hover:underline">Log In</Link>
-                        </div>
+                    <form onSubmit={handleSignup} autoComplete="on">
+                    <AuthForm emailLink="/login" loading={loading}>
+                        <h1>Create your account</h1>
+                        <SignupInputs {...input} />
+                        {error && <p className="text-red-400">{error}</p>}
+                        <SubmitBtn variant="signup" loading={loading} />
+                    </AuthForm>
                     </form>
                 )}
 

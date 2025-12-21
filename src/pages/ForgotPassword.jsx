@@ -2,12 +2,15 @@ import { useState } from "react";
 import BaseInput from "../ui/BaseInput";
 import SubmitBtn from "../ui/SubmitBtn";
 import { supabase } from "../supabase-client";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ForgotPass(){
     const [email, setEmail] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [sent, setSent] = useState(false)
+
+    const navigate = useNavigate()
 
     const validEmail = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -16,6 +19,10 @@ export default function ForgotPass(){
             return false
         }
         return true
+    }
+
+    const handleHome = () => {
+        navigate("/", { replace: true })
     }
 
     const handleForgot = async (e) => {
@@ -45,8 +52,9 @@ export default function ForgotPass(){
         return(
             <div className="form-base">
                 <div className="parent-base">
-                    <h1>Email Sent!</h1>
-                    <span>Check the link we sent to {email} for further instructions.</span>
+                    <h1 className="font-bold">Email Sent!</h1>
+                    <span>Check the link we sent to {email} for further instructions. This process may take a few minutes to conclude, thank you for your patience.</span>
+                    <button onClick={handleHome} className="button-base">Go home</button>
                 </div>
             </div>
         )
@@ -70,6 +78,7 @@ export default function ForgotPass(){
                 />
                 {error && <p className="text-red-400">{error}</p>}
                 <SubmitBtn variant="forgot" loading={loading}/>
+                <Link to="/login" className="text-neutral-100/20 hover:text-blue-500 hover:underline" >Remember password?</Link>
             </div>
         </form>
     )

@@ -6,19 +6,19 @@ import { supabase } from "../supabase-client";
 
 export default function ResetPass() {
     const [newPass, setNewPass] = useState("");
+    const [confirmNewPass, setConfirmNewPass] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [success, setsuccess] = useState("")
 
     const navigate = useNavigate();
-    const [validLink, setValidLink] = useState(true); // assume true, check hash below
 
     useEffect(() => {
-        const hash = window.location.hash.substring(1); // remove '#'
-        if (!hash.includes("access_token")) {
-            setValidLink(false);
-            setError("Invalid or expired password reset link.");
-        }
-    }, []);
+        if (success === "") return 
+
+        const timer = setTimeout(() => navigate("/login", { replace: true }), 3000)
+        return () => clearTimeout(timer)
+    }, [success])
 
     const validPassword = () => {
         if (!newPass) {
@@ -29,9 +29,9 @@ export default function ResetPass() {
             setError("Password must be at least 8 characters.");
             return false;
         }
-        if (!/[A-Z]/.test(newPass)) {
-            setError("Password must include at least one uppercase letter.");
-            return false;
+        if (newPass !== confirmNewPass) {
+            setError("Password does not match.")
+            return false
         }
         return true;
     };
@@ -46,29 +46,16 @@ export default function ResetPass() {
             return;
         }
 
-        try {
-            const { error } = await supabase.auth.updateUser({ password: newPass });
-            if (error) throw error;
-
-            setNewPass("");
-            navigate("/login", { replace: true });
-        } catch (err) {
-            setError(err.message || "Failed to reset password.");
-        } finally {
-            setLoading(false);
+        const { error } = await supabase.auth.updateUser({ password: newPass });
+        if (error) {
+            setError(error.message)
+            setLoading(false)
+            return
         }
+        setLoading(false)
+        setNewPass("");
+        setsuccess("Password succesfully changed. You'll be redirected shortly.")
     };
-
-    if (!validLink) {
-        return (
-            <div className="form-base">
-                <div className="parent-base">
-                    <h1>Password Reset</h1>
-                    <p className="text-red-400">{error}</p>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <form className="form-base" onSubmit={handleReset}>
@@ -85,8 +72,20 @@ export default function ResetPass() {
                     name="password"
                     autoComplete="new-password"
                 />
+                <BaseInput
+                    type="password"
+                    value={confirmNewPass}
+                    onChange={(e) => {
+                        setConfirmNewPass(e.target.value);
+                        setError("");
+                    }}
+                    placeholder="Corfirm new password"
+                    name="password"
+                    autoComplete="new-password"
+                />
                 {error && <p className="text-red-400">{error}</p>}
                 <SubmitBtn variant="reset" loading={loading} />
+                {success && <p className="text-lime-500">{success}</p>}
             </div>
         </form>
     );
