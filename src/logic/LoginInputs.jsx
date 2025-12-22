@@ -4,7 +4,7 @@ import BaseInput from "../ui/BaseInput";
 export default function LoginInputs({ email, setEmail, password, setPassword, errors, setErrors, submitting }) {
   return (
     <>
-      <div className="w-full mb-2">
+      <div className="w-full">
         <BaseInput
           disabled={submitting}
           value={email}

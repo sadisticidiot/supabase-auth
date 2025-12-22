@@ -13,9 +13,10 @@ import Landing from './pages/LandingPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import ForgotPass from './pages/ForgotPassword.jsx'
 import ResetPass from './pages/ResetPassword.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 const router = createBrowserRouter([
-  { path: '/', element: <Landing />},
+  { path: '/', element: <Landing />, errorElement: <NotFound />},
   { path: '/login', element: <Login />},
   { path: '/signup', element: <Signup />},
   { path: '/forgot-password', element: <ForgotPass />},

@@ -8,15 +8,16 @@ export default function AuthForm({ children, emailLink, loading, submitting, goo
         <div className="form-base">
             <motion.div 
                 className="parent-base"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{  opacity: 0.5, scale: 0.95, y: -10 }}
+                animate={{ opacity: 1, scale: [1, 1.02, 1], y: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut"}}
             >
                 {children}
 
                 <div className="flex w-full items-center gap-2 my-2">
-                    <hr className="border-t bordr-white/20 flex-1" />
+                    <hr className="border-t border-white/20 flex-1" />
                     <p className="text-white-20">OR</p>
-                    <hr className="border-t bordr-white/20 flex-1" />
+                    <hr className="border-t border-white/20 flex-1" />
                 </div>
 
                 <GoogleBtn submitting={submitting} loading={loading} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}/>
