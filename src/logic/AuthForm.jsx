@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
 import GoogleBtn from "../ui/GoogleBtn";
 import clsx from "clsx";
+import { motion } from "motion/react";
 
 export default function AuthForm({ children, emailLink, loading, submitting, googleLoad, setGoogleLoad }){
     return(
         <div className="form-base">
-            <div className="parent-base">
+            <motion.div 
+                className="parent-base"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+            >
                 {children}
 
                 <div className="flex w-full items-center gap-2 my-2">
@@ -37,7 +42,7 @@ export default function AuthForm({ children, emailLink, loading, submitting, goo
                         </Link>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

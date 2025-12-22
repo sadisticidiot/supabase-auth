@@ -55,7 +55,10 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleLogin} autoComplete="on">
+    <form 
+      onSubmit={handleLogin} 
+      autoComplete="on"
+    >
       <AuthForm
         emailLink="/signup"
         submitting={submitting}

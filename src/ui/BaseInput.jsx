@@ -1,26 +1,28 @@
 import clsx from "clsx";
+import { motion } from "motion/react";
 
-export default function BaseInput({
-    error,
-    className = "",
-    disabled,
-    ...props
-}){
-    return(
-        <input
-            {...props}
-            disabled={disabled}
-            className ={clsx(
-                "input-base",
-                {
-                    "bg-neutral-700 text-neutral-900 inset-shadow-none cursor-not-allowed": 
-                    disabled,
+export default function BaseInput({ error, className = "", disabled, ...props }) {
+  return (
+    <motion.input
+      {...props}
+      disabled={disabled}
+      className={clsx(
+        "input-base",
+        {
+           "text-neutral-900 inset-shadow-none cursor-not-allowed": disabled,
+        },
+        className
+      )}
+      animate={{
+        boxShadow: error
+            ? "0 0 0 2px rgba(231, 0, 11, 1)"
+            : "0 0 0 0 rgba(231, 0, 11, 0)",
 
-                    "border border-red-500 focus:ring-red-500":
-                    error
-                }, 
-                className
-            )}
-        />
-    )
+        backgroundColor: disabled 
+            ? "rgba(64, 64, 64, 1)"
+            : "rgb(10, 10, 10)",
+      }}
+      transition={{ duration: 0.12 }}
+    />
+  );
 }

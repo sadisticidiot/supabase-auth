@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import BaseInput from "./BaseInput"
 import placeholder from "/Group 1.png"
 import Dropdown from "./Dropdown"
+import { AnimatePresence } from "framer-motion"
 
 export default function Header({ first_name, last_name }) {
 
@@ -37,9 +38,11 @@ export default function Header({ first_name, last_name }) {
                         className="size-[55px] hover:bg-neutral-500/50 rounded-[20px] cursor-pointer"
                     />
 
+                    <AnimatePresence>
                     {isDropdown && (
                         <Dropdown first_name={first_name} last_name={last_name} setIsDropdown={setIsDropdown} />
                     )}
+                    </AnimatePresence>
                 </div>
         </header>
     )

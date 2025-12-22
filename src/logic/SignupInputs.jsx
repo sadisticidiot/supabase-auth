@@ -1,4 +1,5 @@
 import BaseInput from "../ui/BaseInput";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function SignupInputs({
   firstName,
@@ -27,7 +28,19 @@ export default function SignupInputs({
             name="firstName"
             autoComplete="given-name"
           />
-          {errors.firstName && <p className="text-red-400 text-sm mt-1">{errors.firstName}</p>}
+        <AnimatePresence>
+          {errors.firstName && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.firstName}
+            </motion.p>
+          )}
+        </AnimatePresence>
         </div>
 
         <div className="w-1/2">
@@ -39,7 +52,19 @@ export default function SignupInputs({
             name="lastName"
             autoComplete="family-name"
           />
-          {errors.lastName && <p className="text-red-400 text-sm mt-1">{errors.lastName}</p>}
+        <AnimatePresence>
+          {errors.lastName && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.lastName}
+            </motion.p>
+          )}
+        </AnimatePresence>
         </div>
       </div>
 
@@ -53,7 +78,19 @@ export default function SignupInputs({
           name="email"
           autoComplete="username"
         />
-        {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+        <AnimatePresence>
+          {errors.email && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.email}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="w-full">
@@ -66,7 +103,19 @@ export default function SignupInputs({
           name="password"
           autoComplete="new-password"
         />
-        {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
+        <AnimatePresence>
+          {errors.password && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.password}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="w-full">
@@ -79,7 +128,19 @@ export default function SignupInputs({
           name="confirmPass"
           autoComplete="new-password"
         />
-        {errors.confirmPass && <p className="text-red-400 text-sm mt-1">{errors.confirmPass}</p>}
+        <AnimatePresence>
+          {errors.confirmPass && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.confirmPass}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );

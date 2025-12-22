@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import BaseInput from "../ui/BaseInput";
 
 export default function LoginInputs({ email, setEmail, password, setPassword, errors, setErrors, submitting }) {
@@ -17,7 +18,19 @@ export default function LoginInputs({ email, setEmail, password, setPassword, er
           autoComplete="username"
           error={errors.email}
         />
-        {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+        <AnimatePresence>
+          {errors.email && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.email}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="w-full mb-2">
@@ -34,7 +47,19 @@ export default function LoginInputs({ email, setEmail, password, setPassword, er
           autoComplete="new-password"
           error={errors.password}
         />
-        {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
+        <AnimatePresence>
+          {errors.password && (
+            <motion.p
+              className="text-red-400 text-sm mt-1"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.password}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
