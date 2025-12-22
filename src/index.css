@@ -98,6 +98,9 @@
       border-neutral-400/20
       rounded-3xl
       transition
+      transition-colors
+      duration-300
+      ease-out
       hover:text-white
       hover:bg-neutral-700
       hover:border-neutral-500

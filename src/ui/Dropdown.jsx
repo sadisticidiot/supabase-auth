@@ -1,7 +1,12 @@
 import { supabase } from "../supabase-client"
 import logout from "/Icon (1).png"
 
-export default function Dropdown({ first_name, last_name }){
+export default function Dropdown({ first_name, last_name, setIsDropdown }){
+
+    const handleSignOut = () => {
+        setIsDropdown(false)
+        supabase.auth.signOut()
+    }
 
     return(
         <div className="border-1 border-white/20 absolute right-0 flex flex-col gap-1 p-2 bg-neutral-800 shadow-sm shadow-neutral-900 rounded-sm w-50">

@@ -38,7 +38,7 @@ export default function Header({ first_name, last_name }) {
                     />
 
                     {isDropdown && (
-                        <Dropdown first_name={first_name} last_name={last_name} />
+                        <Dropdown first_name={first_name} last_name={last_name} setIsDropdown={setIsDropdown} />
                     )}
                 </div>
         </header>

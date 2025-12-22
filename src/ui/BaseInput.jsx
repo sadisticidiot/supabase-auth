@@ -1,27 +1,24 @@
 import clsx from "clsx";
 
 export default function BaseInput({
-    value,
-    onChange,
-    type = "text",
-    placeholder,
-    name,
-    autoComplete,
+    error,
     className = "",
-    disabled
+    disabled,
+    ...props
 }){
     return(
         <input
+            {...props}
             disabled={disabled}
-            value={value}
-            onChange={onChange}
-            type={type}
-            placeholder={placeholder}
-            name={name}
-            autoComplete={autoComplete}
             className ={clsx(
                 "input-base",
-                {"bg-neutral-700 text-neutral-900 inset-shadow-none cursor-not-allowed": disabled,}, 
+                {
+                    "bg-neutral-700 text-neutral-900 inset-shadow-none cursor-not-allowed": 
+                    disabled,
+
+                    "border border-red-500 focus:ring-red-500":
+                    error
+                }, 
                 className
             )}
         />
