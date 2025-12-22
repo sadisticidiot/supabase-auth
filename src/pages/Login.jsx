@@ -8,13 +8,14 @@ import AuthForm from "../logic/AuthForm";
 export default function Login() {
   const navigate = useNavigate();
 
+  const [error, setError] = useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [googleLoad, setGoogleLoad] = useState(false);
 
-  const inputProps = { email, setEmail, password, setPassword, errors, setErrors, submitting };
+  const inputProps = { email, setEmail, password, setPassword, errors, setErrors, loading };
 
   // Auto clear errors after 5s
   useEffect(() => {
@@ -61,14 +62,16 @@ export default function Login() {
     >
       <AuthForm
         emailLink="/signup"
-        submitting={submitting}
+        loading={loading}
         googleLoad={googleLoad}
         setGoogleLoad={setGoogleLoad}
+        error={error}
+        setError={setError}
       >
         <h1>Log into Ewan</h1>
         <LoginInputs {...inputProps} />
         {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
-        <SubmitBtn variant="login" loading={submitting} />
+        <SubmitBtn variant="login" loading={loading} />
       </AuthForm>
     </form>
   );

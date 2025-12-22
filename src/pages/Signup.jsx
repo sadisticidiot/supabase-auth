@@ -14,10 +14,12 @@ export default function Signup() {
 
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("")
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
+  const [googleLoad, setGoogleLoad] = useState(false)
 
   const inputProps = {
     firstName,
@@ -137,7 +139,7 @@ export default function Signup() {
         <Verification />
       ) : (
         <form onSubmit={handleSignup} autoComplete="on">
-          <AuthForm emailLink="/login" loading={loading}>
+          <AuthForm emailLink="/login" loading={loading} error={error} setError={setError} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}>
             <h1>Create your account</h1>
             <SignupInputs {...inputProps} />
             {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
@@ -148,4 +150,4 @@ export default function Signup() {
     </>
   );
 }
-``
+

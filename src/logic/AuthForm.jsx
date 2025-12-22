@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import GoogleBtn from "../ui/GoogleBtn";
 import clsx from "clsx";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
-export default function AuthForm({ children, emailLink, loading, submitting, googleLoad, setGoogleLoad }){
+export default function AuthForm({ children, error, setError, emailLink, loading, googleLoad, setGoogleLoad }){
     return(
         <div className="form-base">
             <motion.div 
@@ -20,7 +20,21 @@ export default function AuthForm({ children, emailLink, loading, submitting, goo
                     <hr className="border-t border-white/20 flex-1" />
                 </div>
 
-                <GoogleBtn submitting={submitting} loading={loading} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}/>
+                <GoogleBtn setError={setError} loading={loading} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}/>
+
+                <AnimatePresence>
+                {error && (
+                    <motion.p
+                    className="text-red-400 text-sm mt-1"
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    >
+                    {error}
+                    </motion.p>
+                )}
+                </AnimatePresence>
 
                 <div className="grid grid-cols-3 items-center w-full text-sm mt-2">
                     <div className="text-right">

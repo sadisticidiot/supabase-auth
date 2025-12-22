@@ -6,7 +6,7 @@ import { HomeIcon, BookOpenIcon, UserCircleIcon, ArrowTrendingUpIcon, Cog8ToothI
 import clsx from "clsx";
 import { motion } from "framer-motion";
 
-export default function Header({ first_name, last_name }) {
+export default function Header() {
   const [currentView, setCurrentView] = useState("home");
   const [isDropdown, setIsDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -97,9 +97,8 @@ export default function Header({ first_name, last_name }) {
         <AnimatePresence>
           {isDropdown && (
             <Dropdown
-              first_name={first_name}
-              last_name={last_name}
-              setIsDropdown={setIsDropdown}
+                isDropdown={isDropdown}
+                setIsDropdown={setIsDropdown}
             />
           )}
         </AnimatePresence>

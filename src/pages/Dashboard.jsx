@@ -6,9 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard(){
     const textareaRef = useRef(null)
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [loading, setLoading] = useState(true)
 
     const [note, setNote] = useState("")
 
@@ -28,24 +25,6 @@ export default function Dashboard(){
         autoResize()
     }
 
-    //Get names from Supabase on render
-    useEffect(() => {
-        const getLastName = async () => {
-            const { data, error } = await supabase
-                .from("profiles")
-                .select("last_name, first_name")
-                .single()
-
-            if (error) {
-                console.error(error)
-            } else {
-                setFirstName(data.first_name)
-                setLastName(data.last_name)
-            }
-        }
-        getLastName()
-        setLoading(false)
-    }, []) 
 
     return(
         <div 
@@ -53,7 +32,7 @@ export default function Dashboard(){
                 "form-base flex flex-col justify-start overflow-auto no-scrollbar",
             )}
         >
-            <Header first_name={firstName} last_name={lastName}/>
+            <Header />
 
             <div 
                 className={clsx(
