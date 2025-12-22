@@ -45,7 +45,7 @@ export default function Login() {
     });
 
     if (error) {
-      setErrors({ form: "Incorrect username or password. Please try again." });
+      setErrors({ form: "Incorrect username or password. Please try again or create an account." });
       setSubmitting(false);
       return;
     }
