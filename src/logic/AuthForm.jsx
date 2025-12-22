@@ -8,7 +8,7 @@ export default function AuthForm({ children, emailLink, loading, submitting, goo
         <div className="form-base">
             <motion.div 
                 className="parent-base"
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
             >
                 {children}

@@ -24,7 +24,7 @@ export default function Header({ first_name, last_name }) {
     }, [isDropdown])
 
     return (
-        <header className="header-base">
+        <header className="header-base overflow-visible">
                 <h1>Test</h1>
                 <BaseInput
                     placeholder="Search"

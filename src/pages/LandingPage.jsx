@@ -2,19 +2,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../logic/AuthProvider";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase-client";
+import { motion } from "motion/react";
 
 export default function Landing(){
   const [error, setError] = useState()
 
-  const { session } = useAuth()
+  const { loading, session } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (session) {
       navigate("/dashboard", { replace: true })
     }
-  }, [])
+  }, [session])
 
+  if (loading) {
+    return(
+      <div className="form-base flex-col">
+        <h1>Loading... thank you for your patience</h1>
+        <span className="spinner size-10"></span>
+      </div>
+    )
+  }
+  
   const handleGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -30,7 +40,11 @@ export default function Landing(){
   
   return(
     <div className="form-base">
-      <div className="parent-base">
+      <motion.div 
+        className="parent-base"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+      >
         <h1>Welcome, nerd.</h1>
         
         <Link to="/login" className="button-base">Log in</Link>
@@ -46,7 +60,7 @@ export default function Landing(){
           Continue with google
         </button>
         {error && <p className="text-red-400">{error}</p>}
-      </div>
+      </motion.div>
     </div>
   )
 }

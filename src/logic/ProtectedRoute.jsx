@@ -1,17 +1,29 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import clsx from "clsx";
+import Header from "../ui/Header";
 
 export default function ProtectedRoute(){
     const { session, loading } = useAuth()
 
     if (loading){
         return(
-            <div className="form-base">
-                <div className="flex items-center justify-center">
-                    <span className="size-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    <p className="text-white font-bold text-2xl">Loading... Thank you for your patience.</p>
-                </div>
+        <div 
+            className={clsx(
+                "form-base flex flex-col items-center justify-center",
+                "animate-pulse",
+            )}
+        >
+            <Header />
+            <div 
+                className={clsx(
+                    "parent-base",
+                    {"animate-pulse": loading,},
+                )}
+            >
+                <h1 className="text-center">Loading...</h1>
             </div>
+        </div>
         ) 
     } 
 
