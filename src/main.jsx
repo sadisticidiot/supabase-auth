@@ -14,6 +14,10 @@ import Dashboard from './pages/Dashboard.jsx'
 import ForgotPass from './pages/ForgotPassword.jsx'
 import ResetPass from './pages/ResetPassword.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Home from './pages/Home.jsx'
+import Posts from './pages/Posts.jsx'
+import Settings from './pages/Settings.jsx'
+import Data from './pages/Data.jsx'
 
 const router = createBrowserRouter([
   { path: '/', element: <Landing />, errorElement: <NotFound />},
@@ -24,7 +28,16 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      {path: '/dashboard', element: <Dashboard />}
+      {
+        path: '/dashboard', 
+        element: <Dashboard />,
+        children: [
+          { index: true, element: <Home />},
+          { path: 'posts', element: <Posts />},
+          { path: 'data', element: <Data />},
+          { path: 'settings', element: <Settings />},
+        ]
+      }
     ]
   }
 ])

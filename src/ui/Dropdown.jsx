@@ -3,7 +3,7 @@ import { supabase } from "../supabase-client"
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function Dropdown({ isDropdown, setIsDropdown }){
+export default function Dropdown({ setIsDropdown }){
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [loading, setLoading] = useState(false)
@@ -29,7 +29,7 @@ export default function Dropdown({ isDropdown, setIsDropdown }){
         }
         getLastName()
         setLoading(false)
-    }, [isDropdown]) 
+    }, []) 
 
     if (loading) {
         <div className="parent-base p1 absolute top-15 w-30 bg-neutral-800"></div>

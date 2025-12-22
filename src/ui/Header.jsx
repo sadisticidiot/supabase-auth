@@ -1,13 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import BaseInput from "./BaseInput";
 import Dropdown from "./Dropdown";
-import { AnimatePresence } from "framer-motion";
-import { HomeIcon, BookOpenIcon, UserCircleIcon, ArrowTrendingUpIcon, Cog8ToothIcon, BellIcon } from '@heroicons/react/24/solid';
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  HomeIcon,
+  BookOpenIcon,
+  UserCircleIcon,
+  ArrowTrendingUpIcon,
+  Cog8ToothIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const [currentView, setCurrentView] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isDropdown, setIsDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -25,13 +34,27 @@ export default function Header() {
     return () => document.removeEventListener("pointerdown", handleOutside);
   }, [isDropdown]);
 
-  // Center navigation items
+  // Navigation items
   const navItems = [
-    { name: "home", Icon: HomeIcon, label: "Home" },
-    { name: "post", Icon: BookOpenIcon, label: "Posts" },
-    { name: "data", Icon: ArrowTrendingUpIcon, label: "Data" },
-    { name: "settings", Icon: Cog8ToothIcon, label: "Settings" },
+    { name: "home", path: "/dashboard", Icon: HomeIcon, label: "Home" },
+    { name: "post", path: "/dashboard/posts", Icon: BookOpenIcon, label: "Posts" },
+    { name: "data", path: "/dashboard/data", Icon: ArrowTrendingUpIcon, label: "Data" },
+    { name: "settings", path: "/dashboard/settings", Icon: Cog8ToothIcon, label: "Settings" },
   ];
+
+  // Determine active view (longest path wins)
+  const currentView =
+    navItems
+      .slice()
+      .sort((a, b) => b.path.length - a.path.length)
+      .find((item) => location.pathname.startsWith(item.path))
+      ?.name ?? "home";
+
+  const handleNav = (item) => {
+    if (currentView !== item.name) {
+      navigate(item.path);
+    }
+  };
 
   return (
     <header className="header-base overflow-visible flex px-4 py-1 gap-2">
@@ -41,66 +64,58 @@ export default function Header() {
         <BaseInput placeholder="Search" className="h-10 px-4 rounded-full" />
       </div>
 
-      {/* CENTER: Navigation icons */}
+      {/* CENTER: Navigation */}
       <div className="flex flex-1 justify-center items-stretch size-full gap-2">
-        {navItems.map(item => (
+        {navItems.map((item) => (
           <div key={item.name} className="flex-1 flex flex-col items-stretch">
             <button
-              onClick={() => setCurrentView(item.name)}
-              className={clsx(
-                "relative flex-1 flex justify-center items-center rounded transition-all cursor-default",
-                {"hover:bg-neutral-700 cursor-pointer": currentView !== item.name}
-              )}
+              onClick={() => handleNav(item)}
               aria-label={item.label}
+              className={clsx(
+                "relative flex-1 flex justify-center items-center rounded transition-colors",
+                currentView === item.name
+                  ? "text-neutral-100"
+                  : "text-neutral-400 hover:bg-neutral-700 hover:text-neutral-100 cursor-pointer"
+              )}
             >
-              <item.Icon
-                className={clsx(
-                  "w-6 h-6 transition-colors",
-                  currentView === item.name ? "text-neutral-100" : "text-neutral-400 hover:text-neutral-100"
-                )}
-                
-              />
+              <item.Icon className="w-6 h-6" />
             </button>
-            {currentView === item.name &&
-                <AnimatePresence mode="wait"> 
-                    <motion.p 
-                        className="w-full border-1 border-neutral-100"
-                        initial={{ opacity: 0, y: 2}}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2, ease:"easeIn" }}
-                    ></motion.p>
-                </AnimatePresence>
-            }
+
+            <AnimatePresence>
+              {currentView === item.name && (
+                <motion.div
+                  className="w-full h-0.5 bg-neutral-100"
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  animate={{ scaleX: 1, opacity: 1 }}
+                  exit={{ scaleX: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                />
+              )}
+            </AnimatePresence>
           </div>
         ))}
       </div>
 
-      {/* RIGHT: Profile */}
-      <div className="relative flex-1 flex justify-end items-center size-full gap-5">
+      {/* RIGHT: Notifications / Profile */}
+      <div className="relative flex-1 flex justify-end items-center gap-5">
         <button
-            className="relative flex justify-center items-center transition"
-            aria-label="User profile"
+          className="relative flex justify-center items-center transition"
+          aria-label="Notifications"
         >
           <BellIcon className="w-10 h-10 text-neutral-400 hover:text-neutral-200" />
         </button>
 
         <button
-            ref={dropdownRef} 
-            onClick={() => setIsDropdown(p => !p)}
-            className="relative flex justify-center items-center transition"
-            aria-label="User profile"
+          ref={dropdownRef}
+          onClick={() => setIsDropdown((p) => !p)}
+          className="relative flex justify-center items-center transition"
+          aria-label="User profile"
         >
           <UserCircleIcon className="w-10 h-10 text-neutral-400 hover:text-neutral-200" />
         </button>
 
         <AnimatePresence>
-          {isDropdown && (
-            <Dropdown
-                isDropdown={isDropdown}
-                setIsDropdown={setIsDropdown}
-            />
-          )}
+          {isDropdown && <Dropdown setIsDropdown={setIsDropdown} />}
         </AnimatePresence>
       </div>
     </header>
