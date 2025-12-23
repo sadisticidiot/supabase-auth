@@ -15,8 +15,8 @@ export default function BaseInput({ error, className = "", disabled, ...props })
       )}
       animate={{
         boxShadow: error
-            ? "0 0 0 2px rgba(231, 0, 11, 1)"
-            : "0 0 0 0 rgba(231, 0, 11, 0)",
+            ? "0 0 0 2px rgba(251, 44, 54, 1)"
+            : "0 0 0 0 rgba(251, 44, 54, 0)",
 
         backgroundColor: disabled 
             ? "rgba(64, 64, 64, 1)"

@@ -57,7 +57,7 @@ export default function Header() {
   };
 
   return (
-    <header className="header-base overflow-visible flex px-4 py-1 gap-2">
+    <header className="header-base flex px-4 py-1 gap-2">
       {/* LEFT: App name / search */}
       <div className="flex items-center gap-2 flex-1">
         <h1 className="font-bold text-2xl text-white">Test App</h1>

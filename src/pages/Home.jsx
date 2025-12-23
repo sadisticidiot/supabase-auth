@@ -10,7 +10,7 @@ export default function Home(){
 
     const fetchPosts = async () => {
         const { data, error } = await supabase
-            .from("profiles")
+            .from("posts")
             .select("*")
             .order("created_at", {ascending: false})
         
@@ -23,6 +23,21 @@ export default function Home(){
         setLoading(false)
     }
 
+    //Fetch posts on render
+    useEffect(() => {
+        fetchPosts()
+    }, []
+)
+
+    if (loading) {
+        return(
+            <div className="form-base flex-col gap-2">
+                <span className="spinner size-15"></span>
+                <h1 className="text-[15px]">Getting your posts from Mt. Everest, thank you for your paitence</h1>
+            </div>
+        )
+    }
+    //Empty page
     if (posts.length === 0) {
         return(
             <motion.div 
@@ -36,5 +51,20 @@ export default function Home(){
             </motion.div>
         )
     }
+
+    return(
+        <>
+            <div className="form-base relative top-10 flex-col gap-4 justify-start p-1 px-10 w-full">
+                {posts.map(post => (
+                    <div
+                        key={post.id}
+                        className="parent-base"
+                    >
+                        <h2>{post.description}</h2>
+                    </div>
+                ))}
+            </div>
+        </>
+    )
 
 }

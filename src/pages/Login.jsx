@@ -27,7 +27,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrors({});
-    setSubmitting(true);
+    setLoading(true);
 
     const newErrors = {};
 
@@ -36,7 +36,7 @@ export default function Login() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      setSubmitting(false);
+      setLoading(false);
       return;
     }
 
@@ -47,11 +47,11 @@ export default function Login() {
 
     if (error) {
       setErrors({ form: "Incorrect username or password. Please try again or create an account." });
-      setSubmitting(false);
+      setLoading(false);
       return;
     }
 
-    setSubmitting(false);
+    setLoading(false);
     navigate("/dashboard", { replace: true });
   };
 
