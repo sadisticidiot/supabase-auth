@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../supabase-client"
 import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+}
+
+const item = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0 }
+}
 
 export default function Home(){
     const [error, setError] = useState("")
@@ -23,26 +33,47 @@ export default function Home(){
         setLoading(false)
     }
 
+    useEffect(() => {
+        console.log(posts)
+    }, [posts])
+
     //Fetch posts on render
     useEffect(() => {
         fetchPosts()
     }, []
 )
 
+    //Loading
     if (loading) {
         return(
-            <div className="form-base flex-col gap-2">
-                <span className="spinner size-15"></span>
-                <h1 className="text-[15px]">Getting your posts from Mt. Everest, thank you for your paitence</h1>
-            </div>
+            <motion.div
+                className="form-base relative top-10 flex flex-col align-items justify-start gap-5"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeIn" }}
+            >
+                <motion.span 
+                    initial={{ opacity: 0, y: -30 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    className="text-neutral-100/20"
+                >
+                    Fetching posts...
+                </motion.span>
+
+                <div className="parent-base h-[100px] animate-pulse" />
+                <div className="parent-base h-[170px] animate-pulse" />
+                <div className="parent-base h-[120px] animate-pulse" />
+                <div className="parent-base h-[100px] animate-pulse" />
+            </motion.div>
         )
     }
+
     //Empty page
     if (posts.length === 0) {
         return(
             <motion.div 
-                initial={{ opacity: 0, scale: 0.95, x: 50 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut"}}
                 className="form-base gap-2"
             >
@@ -53,18 +84,22 @@ export default function Home(){
     }
 
     return(
-        <>
-            <div className="form-base relative top-10 flex-col gap-4 justify-start p-1 px-10 w-full">
-                {posts.map(post => (
-                    <div
-                        key={post.id}
-                        className="parent-base"
-                    >
-                        <h2>{post.description}</h2>
-                    </div>
-                ))}
-            </div>
-        </>
+        <motion.ul
+            className="form-base relative top-10 flex flex-col align-items justify-start gap-5"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+        >
+            {posts.map(post => (
+                <motion.li
+                    variants={item}
+                    whileHover={{ scale: 1.01, backgroundColor: "#262626" }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="parent-base min-h-[100px] items-start cursor-pointer"
+                >
+                    {post.description}
+                </motion.li>
+            ))}
+        </motion.ul>
     )
-
 }

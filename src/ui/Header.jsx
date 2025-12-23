@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import BaseInput from "./BaseInput";
 import Dropdown from "./Dropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -9,7 +8,8 @@ import {
   ArrowTrendingUpIcon,
   Cog8ToothIcon,
   BellIcon,
-} from "@heroicons/react/24/solid";
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -59,9 +59,9 @@ export default function Header() {
   return (
     <header className="header-base flex px-4 py-1 gap-2">
       {/* LEFT: App name / search */}
-      <div className="flex items-center gap-2 flex-1">
-        <h1 className="font-bold text-2xl text-white">Test App</h1>
-        <BaseInput placeholder="Search" className="h-10 px-4 rounded-full" />
+      <div className="flex items-center justify-start gap-6 flex-1">
+        <h1>Test</h1>
+        <MagnifyingGlassIcon className="text-white/80 hover:text-white cursor-pointer w-6 h-6"/>
       </div>
 
       {/* CENTER: Navigation */}
@@ -102,7 +102,7 @@ export default function Header() {
           className="relative flex justify-center items-center transition"
           aria-label="Notifications"
         >
-          <BellIcon className="w-10 h-10 text-neutral-400 hover:text-neutral-200" />
+          <BellIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
         </button>
 
         <button
@@ -111,7 +111,7 @@ export default function Header() {
           className="relative flex justify-center items-center transition"
           aria-label="User profile"
         >
-          <UserCircleIcon className="w-10 h-10 text-neutral-400 hover:text-neutral-200" />
+          <UserCircleIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
         </button>
 
         <AnimatePresence>

@@ -61,8 +61,8 @@ export default function Posts(){
                     "p-1 bg-neutral-900 box-border border-0 rounded-xl relative top-10 max-w-[300px]",
                     {"border-1 border-neutral-900": note}
                 )}
-                initial={{ opacity: 0, scale: 0.95, x: 50 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut"}}
             >
                 <textarea className="input-base resize-none" ref={textareaRef} value={note} onChange={handleThoughts} placeholder="What are your thoughts?" />
