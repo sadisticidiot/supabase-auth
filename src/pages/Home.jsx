@@ -83,6 +83,7 @@ export default function Home(){
         )
     }
 
+function DesktopDisplay(){
     return(
         <motion.ul
             className="form-base relative top-10 flex flex-col align-items justify-start gap-5"
@@ -101,5 +102,40 @@ export default function Home(){
                 </motion.li>
             ))}
         </motion.ul>
+    )
+}
+
+function MobileDisplay(){
+    return(
+        <motion.ul
+            className="form-base relative top-10 flex flex-col align-items justify-start gap-2 px-1"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+        >
+            {posts.map(post => (
+                <motion.li
+                    variants={item}
+                    whileHover={{ scale: 1.01, backgroundColor: "#262626" }}
+                    className="parent-base min-h-[100px] items-start cursor-pointer text-left w-full"
+                >
+                    <h1 className="pt-0 pb-2">{post.title}</h1>
+                    {post.description}
+                </motion.li>
+            ))}
+        </motion.ul>
+    )
+}
+
+    return(
+        <>
+            <div className="block md:hidden w-full">
+                <MobileDisplay />
+            </div>
+
+            <div className="hidden md:block w-full">
+                <DesktopDisplay />
+            </div>
+        </>
     )
 }
