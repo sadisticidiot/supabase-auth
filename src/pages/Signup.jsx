@@ -3,7 +3,10 @@ import SignupInputs from "../logic/SignupInputs";
 import { supabase } from "../supabase-client";
 import SubmitBtn from "../ui/SubmitBtn";
 import verifyImg from "/Icon.png";
-import AuthForm from "../logic/AuthForm";
+import AuthForm from "../ui/AuthForm";
+import MobileAuth from "../ui/MobileAuth";
+import MbSignupInput from "../logic/MbSignupInput";
+import MobileSubmit from "../ui/MobileSubmit";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -135,19 +138,40 @@ export default function Signup() {
 
   return (
     <>
-      {submitted ? (
-        <Verification />
-      ) : (
-        <form onSubmit={handleSignup} autoComplete="on">
-          <AuthForm emailLink="/login" loading={loading} error={error} setError={setError} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}>
-            <h1>Create your account</h1>
-            <SignupInputs {...inputProps} />
-            {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
-            <SubmitBtn variant="signup" loading={loading} />
-          </AuthForm>
-        </form>
-      )}
+      <div className="block md:hidden w-full">
+        <>
+          {submitted ? (
+            <Verification />
+          ) : (
+            <form onSubmit={handleSignup} autoComplete="on">
+              <MobileAuth emailLink="/login" loading={loading} error={error} setError={setError} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}>
+                <h1 className="text-[40px]">Create your account</h1>
+                <MbSignupInput {...inputProps} />
+                {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
+                <MobileSubmit variant="signup" loading={loading} />
+              </MobileAuth>
+            </form>
+          )}
+        </>
+      </div>
+
+      <div className="hidden md:block w-full">
+        <>
+          {submitted ? (
+            <Verification />
+          ) : (
+            <form onSubmit={handleSignup} autoComplete="on">
+              <AuthForm emailLink="/login" loading={loading} error={error} setError={setError} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}>
+                <h1>Create your account</h1>
+                <SignupInputs {...inputProps} />
+                {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
+                <SubmitBtn variant="signup" loading={loading} />
+              </AuthForm>
+            </form>
+          )}
+        </>
+      </div>
     </>
-  );
+     );
 }
 

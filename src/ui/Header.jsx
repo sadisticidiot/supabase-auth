@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Dropdown from "./Dropdown";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   HomeIcon,
@@ -12,6 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import Dropdown from "./Dropdown";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function Header() {
   const [isDropdown, setIsDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
+  // Close dropdown on outside click
   useEffect(() => {
     if (!isDropdown) return;
 
@@ -34,7 +34,6 @@ export default function Header() {
     return () => document.removeEventListener("pointerdown", handleOutside);
   }, [isDropdown]);
 
-  // Navigation items
   const navItems = [
     { name: "home", path: "/dashboard", Icon: HomeIcon, label: "Home" },
     { name: "post", path: "/dashboard/posts", Icon: BookOpenIcon, label: "Posts" },
@@ -42,7 +41,6 @@ export default function Header() {
     { name: "settings", path: "/dashboard/settings", Icon: Cog8ToothIcon, label: "Settings" },
   ];
 
-  // Determine active view (longest path wins)
   const currentView =
     navItems
       .slice()
@@ -56,68 +54,80 @@ export default function Header() {
     }
   };
 
+  const NavButtons = () => (
+    <div className="flex flex-1 justify-center items-stretch size-full gap-2">
+      {navItems.map((item) => (
+        <div key={item.name} className="flex-1 flex flex-col items-stretch">
+          <button
+            onClick={() => handleNav(item)}
+            aria-label={item.label}
+            className={clsx(
+              "relative flex-1 flex justify-center items-center rounded transition-colors",
+              currentView === item.name
+                ? "text-neutral-100"
+                : "text-neutral-400 hover:bg-neutral-700 hover:text-neutral-100 cursor-pointer"
+            )}
+          >
+            <item.Icon className="w-6 h-6" />
+          </button>
+
+          <AnimatePresence>
+            {currentView === item.name && (
+              <motion.div
+                className="w-full h-0.5 bg-neutral-100"
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                exit={{ scaleX: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <header className="header-base flex px-4 py-1 gap-2">
-      {/* LEFT: App name / search */}
-      <div className="flex items-center justify-start gap-6 flex-1">
-        <h1>Test</h1>
-        <MagnifyingGlassIcon className="text-white/80 hover:text-white cursor-pointer w-6 h-6"/>
-      </div>
+    <>
+      {/* HEADER */}
+      <header className="header-base px-4 py-1 gap-2">
+        {/* LEFT */}
+        <div className="flex items-center justify-start gap-6 flex-1">
+          <h1 className="hidden md:block">Test</h1>
+          <MagnifyingGlassIcon className="w-6 h-6 text-white/80 hover:text-white cursor-pointer" />
+        </div>
 
-      {/* CENTER: Navigation */}
-      <div className="flex flex-1 justify-center items-stretch size-full gap-2">
-        {navItems.map((item) => (
-          <div key={item.name} className="flex-1 flex flex-col items-stretch">
-            <button
-              onClick={() => handleNav(item)}
-              aria-label={item.label}
-              className={clsx(
-                "relative flex-1 flex justify-center items-center rounded transition-colors",
-                currentView === item.name
-                  ? "text-neutral-100"
-                  : "text-neutral-400 hover:bg-neutral-700 hover:text-neutral-100 cursor-pointer"
-              )}
-            >
-              <item.Icon className="w-6 h-6" />
-            </button>
+        {/* CENTER (desktop only) */}
+        <div className="hidden md:flex flex-1">
+          <NavButtons />
+        </div>
 
-            <AnimatePresence>
-              {currentView === item.name && (
-                <motion.div
-                  className="w-full h-0.5 bg-neutral-100"
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  animate={{ scaleX: 1, opacity: 1 }}
-                  exit={{ scaleX: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                />
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </div>
-
-      {/* RIGHT: Notifications / Profile */}
-      <div className="relative flex-1 flex justify-end items-center gap-5">
-        <button
-          className="relative flex justify-center items-center transition"
-          aria-label="Notifications"
-        >
-          <BellIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
-        </button>
-
-        <button
+        {/* RIGHT */}
+        <div
+          className="relative flex-1 flex justify-end items-center gap-5"
           ref={dropdownRef}
-          onClick={() => setIsDropdown((p) => !p)}
-          className="relative flex justify-center items-center transition"
-          aria-label="User profile"
         >
-          <UserCircleIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
-        </button>
+          <button aria-label="Notifications">
+            <BellIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
+          </button>
 
-        <AnimatePresence>
-          {isDropdown && <Dropdown setIsDropdown={setIsDropdown} />}
-        </AnimatePresence>
-      </div>
-    </header>
+          <button
+            onClick={() => setIsDropdown((p) => !p)}
+            aria-label="User profile"
+          >
+            <UserCircleIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
+          </button>
+
+          <AnimatePresence>
+            {isDropdown && <Dropdown setIsDropdown={setIsDropdown} />}
+          </AnimatePresence>
+        </div>
+      </header>
+
+      {/* FOOTER (mobile only) */}
+      <footer className="footer-base px-4 py-1 gap-2 md:hidden">
+        <NavButtons />
+      </footer>
+    </>
   );
 }

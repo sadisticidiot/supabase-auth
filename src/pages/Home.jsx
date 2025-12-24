@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../supabase-client"
 import { Link } from "react-router-dom"
-import { motion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 
 const container = {
     hidden: { opacity: 0 },
@@ -72,8 +72,8 @@ export default function Home(){
     if (posts.length === 0) {
         return(
             <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: [1.01, 1] }}
                 transition={{ duration: 0.2, ease: "easeOut"}}
                 className="form-base gap-2"
             >
@@ -94,9 +94,9 @@ export default function Home(){
                 <motion.li
                     variants={item}
                     whileHover={{ scale: 1.01, backgroundColor: "#262626" }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="parent-base min-h-[100px] items-start cursor-pointer"
+                    className="parent-base min-h-[100px] items-start cursor-pointer text-left"
                 >
+                    <h1 className="pt-0">{post.title}</h1>
                     {post.description}
                 </motion.li>
             ))}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GoogleBtn from "../ui/GoogleBtn";
+import GoogleBtn from "./GoogleBtn";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
 
