@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BaseInput from "../ui/BaseInput";
 import SubmitBtn from "../ui/SubmitBtn";
 import { supabase } from "../supabase-client";
+import MobileSubmit from "../ui/MobileSubmit";
 
 export default function ResetPass() {
     const [newPass, setNewPass] = useState("");
@@ -58,35 +59,75 @@ export default function ResetPass() {
     };
 
     return (
-        <form className="form-base" onSubmit={handleReset}>
-            <div className="parent-base">
-                <h1>Reset your password</h1>
-                <BaseInput
-                    type="password"
-                    value={newPass}
-                    onChange={(e) => {
-                        setNewPass(e.target.value);
-                        setError("");
-                    }}
-                    placeholder="New Password"
-                    name="password"
-                    autoComplete="new-password"
-                />
-                <BaseInput
-                    type="password"
-                    value={confirmNewPass}
-                    onChange={(e) => {
-                        setConfirmNewPass(e.target.value);
-                        setError("");
-                    }}
-                    placeholder="Corfirm new password"
-                    name="password"
-                    autoComplete="new-password"
-                />
-                {error && <p className="text-red-400">{error}</p>}
-                <SubmitBtn variant="reset" loading={loading} />
-                {success && <p className="text-lime-500">{success}</p>}
+        <>
+            <div className="block md:hidden w-full">
+                <form className="form-base flex-col justify-between p-3" onSubmit={handleReset}>
+                    <h1 className="text-[60px]">Reset your password</h1>
+                    <div className="flex flex-col w-full gap-4">
+                        <BaseInput
+                            type="password"
+                            value={newPass}
+                            onChange={(e) => {
+                                setNewPass(e.target.value);
+                                setError("");
+                            }}
+                            className="bg-neutral-900 py-6"
+                            placeholder="New Password"
+                            name="password"
+                            autoComplete="new-password"
+                        />
+                        <BaseInput
+                            type="password"
+                            value={confirmNewPass}
+                            onChange={(e) => {
+                                setConfirmNewPass(e.target.value);
+                                setError("");
+                            }}
+                            className="bg-neutral-900 py-6"
+                            placeholder="Corfirm new password"
+                            name="password"
+                            autoComplete="new-password"
+                        />
+                    </div>
+                    {error && <p className="text-red-400">{error}</p>}
+                    <MobileSubmit variant="reset" loading={loading} />
+                    {success && <p className="text-lime-500">{success}</p>}
+                </form>
             </div>
-        </form>
+
+            <div className="hidden md:block">
+                <form className="form-base" onSubmit={handleReset}>
+                    <div className="parent-base">
+                        <h1>Reset your password</h1>
+                        <BaseInput
+                            type="password"
+                            value={newPass}
+                            onChange={(e) => {
+                                setNewPass(e.target.value);
+                                setError("");
+                            }}
+                            placeholder="New Password"
+                            name="password"
+                            autoComplete="new-password"
+                        />
+                        <BaseInput
+                            type="password"
+                            value={confirmNewPass}
+                            onChange={(e) => {
+                                setConfirmNewPass(e.target.value);
+                                setError("");
+                            }}
+                            placeholder="Corfirm new password"
+                            name="password"
+                            autoComplete="new-password"
+                        />
+                        {error && <p className="text-red-400">{error}</p>}
+                        <SubmitBtn variant="reset" loading={loading} />
+                        {success && <p className="text-lime-500">{success}</p>}
+                    </div>
+                </form>                
+            </div>
+        </>
+
     );
 }

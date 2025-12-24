@@ -108,7 +108,7 @@ function DesktopDisplay(){
 function MobileDisplay(){
     return(
         <motion.ul
-            className="form-base relative top-10 flex flex-col align-items justify-start gap-2 px-1"
+            className="form-base relative top-10 flex flex-col align-items justify-start gap-2 px-2"
             variants={container}
             initial="hidden"
             animate="visible"

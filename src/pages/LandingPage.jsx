@@ -37,30 +37,59 @@ export default function Landing(){
       setError(error.message)
     }
   }
-  
+ 
   return(
-    <div className="form-base">
-      <motion.div 
-        className="parent-base"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-      >
-        <h1>Welcome, nerd.</h1>
-        
-        <Link to="/login" className="button-base">Log in</Link>
-        <Link to="/signup" className="button-base">Sign up</Link>
+    <>
+      <div className="block md:hidden w-full">
+        <motion.div 
+          className="form-base flex-col justify-between p-3"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <h1 className="text-[80px]">Welcome, nerd.</h1>
+          <div className="w-full flex flex-col gap-2">
+            <Link to="/login" className="button-base py-6">Log in</Link>
+            <Link to="/signup" className="button-base py-6">Sign up</Link>
+          </div>
 
-        <div className="flex w-full items-center gap-2">
-          <hr className="border-t border-white/20 mb-1 flex-1" />
-          <p className="text-white/20">OR</p>
-          <hr className="border-t border-white/20 mb-1 flex-1" />
+            <div className="flex w-full items-center gap-2">
+              <hr className="border-t border-white/20 mb-1 flex-1" />
+              <p className="text-white/20">OR</p>
+              <hr className="border-t border-white/20 mb-1 flex-1" />
+            </div>
+
+            <button onClick={handleGoogle} className="button-base py-6">
+              Continue with google
+            </button>
+            {error && <p className="text-red-400">{error}</p>}
+        </motion.div>
+      </div>
+
+      <div className="hidden md:block w-full">
+        <div className="form-base">
+          <motion.div 
+            className="parent-base"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <h1>Welcome, nerd.</h1>
+            
+            <Link to="/login" className="button-base">Log in</Link>
+            <Link to="/signup" className="button-base">Sign up</Link>
+
+            <div className="flex w-full items-center gap-2">
+              <hr className="border-t border-white/20 mb-1 flex-1" />
+              <p className="text-white/20">OR</p>
+              <hr className="border-t border-white/20 mb-1 flex-1" />
+            </div>
+
+            <button onClick={handleGoogle} className="button-base flex gap-2 items-center justify-center">
+              Continue with google
+            </button>
+            {error && <p className="text-red-400">{error}</p>}
+          </motion.div>
         </div>
-
-        <button onClick={handleGoogle} className="button-base flex gap-2 items-center justify-center">
-          Continue with google
-        </button>
-        {error && <p className="text-red-400">{error}</p>}
-      </motion.div>
-    </div>
+      </div>
+    </>
   )
 }

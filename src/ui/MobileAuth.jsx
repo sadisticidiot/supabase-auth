@@ -7,7 +7,7 @@ import MobileGoogle from "./MobileGoogle";
 export default function MobileAuth({ children, error, setError, emailLink, loading, googleLoad, setGoogleLoad }){
     return(
         <motion.div 
-            className="form-base flex-col p-5 justify-between"
+            className="form-base flex-col p-5 justify-between items-center"
             initial={{ scale: 1.02 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut"}}
@@ -36,8 +36,8 @@ export default function MobileAuth({ children, error, setError, emailLink, loadi
             )}
             </AnimatePresence>
 
-            <div className="grid grid-cols-3 items-center w-full text-sm mt-2">
-                <div className="text-right">
+            <div className="flex items-center w-full text-sm mt-2 justify-between">
+                <div className="text-right flex-1 flex justify-center">
                     <Link
                         to="/forgot-password"
                         className="text-blue-500 underline"
@@ -48,7 +48,7 @@ export default function MobileAuth({ children, error, setError, emailLink, loadi
 
                 <div className="text-center text-neutral-100/20">|</div>
 
-                <div className="text-left">
+                <div className="text-left flex-1 flex justify-center">
                     <Link
                         to={emailLink}
                         className="text-blue-500 underline"
