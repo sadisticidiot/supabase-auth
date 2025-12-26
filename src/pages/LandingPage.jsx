@@ -41,21 +41,20 @@ export default function Landing(){
   return(
     <>
       <div className="block md:hidden w-full">
-        <motion.div 
-          className="flex flex-col fixed w-full inset-0 p-3 py-5 items-center justify-end bg-linear-to-b from-black to-neutral-900/98"
-          initial={{ opacity: 0, scale: 0.9 }} 
-          animate={{ opacity: 1, scale: 1 }}
+        <div 
+          className="flex flex-col fixed w-full inset-0 p-3 py-5 items-center justify-center bg-[url('/maka_albarn.webp')] bg-cover bg-center"
         >
+          <div className="absolute inset-0 bg-linear-to-b from-neutral-900/95 to-black/95" />
           <div className="flex-1 flex justify-center items-center">
-            <h1 className="text-[60px] text-white/98">Saiki</h1>
+            <h1 className="text-[60px] text-white/98 z-3">imissyou</h1>
           </div>
 
-          <div className="w-full flex flex-col gap-2">
-            <Link to="/login" className="button-base bg-neutral-950 rounded-md text-neutral-100">Log in</Link>
-            <Link to="/signup" className="button-base bg-neutral-100 rounded-md text-neutral-950 border-1">Sign up</Link>
+          <div className="w-full flex flex-col gap-2 z-3">
+            <Link to="/login" className="button-base py-3 bg-neutral-950 rounded-md text-neutral-100 z-3">Log in</Link>
+            <Link to="/signup" className="button-base py-3 bg-neutral-100 rounded-md text-neutral-950 border-1 z-3">Sign up</Link>
           </div>
             {error && <p className="text-red-400">{error}</p>}
-        </motion.div>
+        </div>
       </div>
 
       <div className="hidden md:block w-full">

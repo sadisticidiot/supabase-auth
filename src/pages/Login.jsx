@@ -64,10 +64,10 @@ export default function Login() {
         <form 
           onSubmit={handleLogin} 
           autoComplete="on"
-          className="flex flex-col fixed w-full inset-0 px-8 py-5 items-center justify-center bg-linear-to-b from-black to-neutral-900/98"
+          className="flex flex-col fixed w-full inset-0 px-6 py-5 items-center justify-center bg-linear-to-b from-black to-neutral-900/98"
         >
           <div className="flex justify-center items-center">
-            <h1 className="text-[60px] text-white">Log Into Ewan</h1>
+            <h1 className="text-[40px] text-white">Log Into Ewan</h1>
           </div>
 
           <div className="flex flex-col w-full gap-2">
