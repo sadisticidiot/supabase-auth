@@ -42,25 +42,18 @@ export default function Landing(){
     <>
       <div className="block md:hidden w-full">
         <motion.div 
-          className="form-base flex-col justify-between p-3"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="flex flex-col fixed w-full inset-0 p-3 py-5 items-center justify-end bg-linear-to-b from-black to-neutral-900/98"
+          initial={{ opacity: 0, scale: 0.9 }} 
           animate={{ opacity: 1, scale: 1 }}
         >
-          <h1 className="text-[80px]">Welcome, nerd.</h1>
-          <div className="w-full flex flex-col gap-2">
-            <Link to="/login" className="button-base py-6">Log in</Link>
-            <Link to="/signup" className="button-base py-6">Sign up</Link>
+          <div className="flex-1 flex justify-center items-center">
+            <h1 className="text-[60px] text-white/98">Saiki</h1>
           </div>
 
-            <div className="flex w-full items-center gap-2">
-              <hr className="border-t border-white/20 mb-1 flex-1" />
-              <p className="text-white/20">OR</p>
-              <hr className="border-t border-white/20 mb-1 flex-1" />
-            </div>
-
-            <button onClick={handleGoogle} className="button-base py-6">
-              Continue with google
-            </button>
+          <div className="w-full flex flex-col gap-2">
+            <Link to="/login" className="button-base bg-neutral-950 rounded-md text-neutral-100">Log in</Link>
+            <Link to="/signup" className="button-base bg-neutral-100 rounded-md text-neutral-950 border-1">Sign up</Link>
+          </div>
             {error && <p className="text-red-400">{error}</p>}
         </motion.div>
       </div>

@@ -34,7 +34,7 @@ export default function MobileSubmit({variant = "", loading = false }) {
             disabled={loading}
             className={clsx(
                 "button-base",
-                "flex items-center gap-2 justify-center py-5",
+                "rounded-md py-3 flex items-center gap-2 justify-center bg-neutral-950 text-neutral-100",
                 {
                     "cursor-default border-none bg-neutral-900 text-white/50": loading,
                 }

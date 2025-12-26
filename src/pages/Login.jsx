@@ -4,9 +4,8 @@ import { supabase } from "../supabase-client";
 import { useNavigate } from "react-router-dom";
 import SubmitBtn from "../ui/SubmitBtn";
 import AuthForm from "../ui/AuthForm";
-import MobileAuth from "../ui/MobileAuth";
-import MbLoginInput from "../logic/MbLoginInput";
 import MobileSubmit from "../ui/MobileSubmit";
+import MbLoginInput from "../logic/MbLoginInput";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -65,20 +64,18 @@ export default function Login() {
         <form 
           onSubmit={handleLogin} 
           autoComplete="on"
+          className="flex flex-col fixed w-full inset-0 px-8 py-5 items-center justify-center bg-linear-to-b from-black to-neutral-900/98"
         >
-          <MobileAuth
-            emailLink="/signup"
-            loading={loading}
-            googleLoad={googleLoad}
-            setGoogleLoad={setGoogleLoad}
-            error={error}
-            setError={setError}
-          >
-            <h1 className="text-[60px]">Log into Ewan</h1>
-            <MbLoginInput {...inputProps} />
+          <div className="flex justify-center items-center">
+            <h1 className="text-[60px] text-white">Log Into Ewan</h1>
+          </div>
+
+          <div className="flex flex-col w-full gap-2">
+            <MbLoginInput {...inputProps}  />
+          </div>
+
             {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
-            <MobileSubmit variant="login" loading={loading} />
-          </MobileAuth>
+            <MobileSubmit variant="login" loading={loading} className="bg-neutral-950 rounded-md text-neutral-100 hover:border-white" />
         </form>
       </div>
 

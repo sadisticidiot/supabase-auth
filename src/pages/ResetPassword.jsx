@@ -62,7 +62,7 @@ export default function ResetPass() {
         <>
             <div className="block md:hidden w-full">
                 <form className="form-base flex-col justify-between p-3" onSubmit={handleReset}>
-                    <h1 className="text-[60px]">Reset your password</h1>
+                    <h1 className="text-[80px]">Reset your password</h1>
                     <div className="flex flex-col w-full gap-4">
                         <BaseInput
                             type="password"
@@ -117,7 +117,7 @@ export default function ResetPass() {
                                 setConfirmNewPass(e.target.value);
                                 setError("");
                             }}
-                            placeholder="Corfirm new password"
+                            placeholder="Confirm new password"
                             name="password"
                             autoComplete="new-password"
                         />

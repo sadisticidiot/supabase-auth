@@ -12,7 +12,7 @@ export default function MbLoginInput({ email, setEmail, password, setPassword, e
             setEmail(e.target.value);
             setErrors((prev) => ({ ...prev, email: "" }));
           }}
-          className="bg-neutral-900 py-6"
+          className="bg-neutral-100 placeholder-neutral-950/70 rounded-md"
           type="email"
           placeholder="Email"
           name="email"
@@ -42,7 +42,7 @@ export default function MbLoginInput({ email, setEmail, password, setPassword, e
             setPassword(e.target.value);
             setErrors((prev) => ({ ...prev, password: "" }));
           }}
-          className="bg-neutral-900 py-6"
+          className="bg-neutral-100 placeholder-neutral-950/60 rounded-md"
           type="password"
           placeholder="Password"
           name="password"
