@@ -24,7 +24,7 @@ export default function MbSignupInput({
                 (e) => setFirstName(e.target.value)
             }
             error={errors.firstName}
-            className="bg-neutral-900 py-5"
+            className="bg-neutral-900 rounded-md py-4"
             placeholder="First Name"
             name="firstName"
             autoComplete="given-name"
@@ -49,7 +49,7 @@ export default function MbSignupInput({
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             error={errors.lastName}
-            className="bg-neutral-900 py-5"
+            className="bg-neutral-900 rounded-md py-4"
             placeholder="Last Name"
             name="lastName"
             autoComplete="family-name"
@@ -75,7 +75,7 @@ export default function MbSignupInput({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={errors.email}
-          className="bg-neutral-900 py-5"
+          className="bg-neutral-900 rounded-md py-4"
           type="email"
           placeholder="Email"
           name="email"
@@ -101,7 +101,7 @@ export default function MbSignupInput({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           error={errors.password}
-          className="bg-neutral-900 py-5"
+          className="bg-neutral-900 rounded-md py-4"
           type="password"
           placeholder="Password"
           name="password"
@@ -127,7 +127,7 @@ export default function MbSignupInput({
           value={confirmPass}
           onChange={(e) => setConfirmPass(e.target.value)}
           error={errors.confirmPass}
-          className="bg-neutral-900 py-5"
+          className="bg-neutral-900 rounded-md py-4"
           type="password"
           placeholder="Confirm Password"
           name="confirmPass"

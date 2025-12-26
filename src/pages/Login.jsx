@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import LoginInputs from "../logic/LoginInputs";
 import { supabase } from "../supabase-client";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SubmitBtn from "../ui/SubmitBtn";
 import AuthForm from "../ui/AuthForm";
 import MobileSubmit from "../ui/MobileSubmit";
 import MbLoginInput from "../logic/MbLoginInput";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,13 +19,6 @@ export default function Login() {
   const [googleLoad, setGoogleLoad] = useState(false);
 
   const inputProps = { email, setEmail, password, setPassword, errors, setErrors, loading };
-
-  // Auto clear errors after 5s
-  useEffect(() => {
-    if (Object.keys(errors).length === 0) return;
-    const timer = setTimeout(() => setErrors({}), 5000);
-    return () => clearTimeout(timer);
-  }, [errors]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -57,25 +51,36 @@ export default function Login() {
     navigate("/dashboard", { replace: true });
   };
 
-
   return (
     <>
       <div className="block md:hidden w-full">
         <form 
           onSubmit={handleLogin} 
           autoComplete="on"
-          className="flex flex-col fixed w-full inset-0 px-6 py-5 items-center justify-center bg-linear-to-b from-black to-neutral-900/98"
+          className="flex flex-col fixed w-full inset-0 px-6 py-5 items-center justify-between bg-linear-to-b from-black to-neutral-900/98"
         >
-          <div className="flex justify-center items-center">
-            <h1 className="text-[40px] text-white">Log Into Ewan</h1>
-          </div>
+          <header className="relative flex justify-center items-center w-full">
+            <Link to="/" className="absolute left-0 text-neutral-100 rounded-sm">
+              <XMarkIcon className="size-[30px]"/>
+            </Link>
+            <h1 className="text-[40px] text-white">Sign In</h1>
+          </header>
 
           <div className="flex flex-col w-full gap-2">
             <MbLoginInput {...inputProps}  />
+            <MobileSubmit variant="login" loading={loading} className="bg-neutral-950 rounded-md text-neutral-100 hover:border-white" />
+            {errors.form && 
+              <p className="text-red-400 text-md mt-1 text-center flex flex-col">
+                {errors.form}
+                <Link to="/forgot-password" className="text-blue-500 underline"> Forgot Password?</Link>
+              </p>
+            }
           </div>
 
-            {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
-            <MobileSubmit variant="login" loading={loading} className="bg-neutral-950 rounded-md text-neutral-100 hover:border-white" />
+          <div className="flex gap-1">
+            <span className="text-neutral-400">Don't have an account?</span>
+            <Link to="/signup" className="text-blue-500 underline">Sign up!</Link>
+          </div>
         </form>
       </div>
 

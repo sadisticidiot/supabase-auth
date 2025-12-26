@@ -7,6 +7,8 @@ import AuthForm from "../ui/AuthForm";
 import MobileAuth from "../ui/MobileAuth";
 import MbSignupInput from "../logic/MbSignupInput";
 import MobileSubmit from "../ui/MobileSubmit";
+import { Link } from "react-router-dom";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -143,13 +145,28 @@ export default function Signup() {
           {submitted ? (
             <Verification />
           ) : (
-            <form onSubmit={handleSignup} autoComplete="on">
-              <MobileAuth emailLink="/login" loading={loading} error={error} setError={setError} googleLoad={googleLoad} setGoogleLoad={setGoogleLoad}>
-                <h1 className="text-[40px]">Create your account</h1>
-                <MbSignupInput {...inputProps} />
-                {errors.form && <p className="text-red-400 text-sm mt-1">{errors.form}</p>}
-                <MobileSubmit variant="signup" loading={loading} />
-              </MobileAuth>
+            <form 
+              onSubmit={handleSignup} 
+              autoComplete="on"
+              className="flex flex-col fixed w-full inset-0 px-6 py-5 items-center justify-between bg-linear-to-b from-black to-neutral-900/98"
+            >
+              <header className="relative flex justify-center items-center w-full">
+                <Link to="/" className="absolute left-0 text-neutral-100 rounded-sm ">
+                  <XMarkIcon className="size-[30px]"/>
+                </Link>
+                <h1 className="text-[40px] text-white">Sign Up</h1>
+              </header>
+
+              <div className="flex flex-col w-full gap-2">
+                <MbSignupInput {...inputProps}  />
+                <MobileSubmit variant="signup" loading={loading} className="bg-neutral-950 rounded-md text-neutral-100 hover:border-white" />
+                {errors.form && <p className="text-red-400 text-md mt-1">{errors.form}</p>}
+              </div>
+
+              <div className="flex gap-1">
+                <span className="text-neutral-400">Already have an account?</span>
+                <Link to="/login" className="text-blue-500 underline">Sign in!</Link>
+              </div>
             </form>
           )}
         </>

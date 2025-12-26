@@ -20,7 +20,6 @@ export default function Header() {
   const [isDropdown, setIsDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     if (!isDropdown) return;
 
@@ -90,7 +89,7 @@ export default function Header() {
   return (
     <>
       {/* HEADER */}
-      <header className="header-base px-4 py-1 gap-2">
+      <header className="header-base px-4 py-1 gap-2 flex">
         {/* LEFT */}
         <div className="flex items-center justify-start gap-6 flex-1">
           <h1 className="hidden md:block">Test</h1>
@@ -98,7 +97,7 @@ export default function Header() {
         </div>
 
         {/* CENTER (desktop only) */}
-        <div className="hidden md:flex flex-1">
+        <div className="hidden md:flex flex-1 size-full">
           <NavButtons />
         </div>
 

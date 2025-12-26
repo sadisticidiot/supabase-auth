@@ -12,7 +12,7 @@ export default function MbLoginInput({ email, setEmail, password, setPassword, e
             setEmail(e.target.value);
             setErrors((prev) => ({ ...prev, email: "" }));
           }}
-          className="bg-neutral-100 placeholder-neutral-950/70 rounded-md"
+          className="bg-neutral-900 rounded-md"
           type="email"
           placeholder="Email"
           name="email"
@@ -22,7 +22,7 @@ export default function MbLoginInput({ email, setEmail, password, setPassword, e
         <AnimatePresence>
           {errors.email && (
             <motion.p
-              className="text-red-400 text-sm mt-1"
+              className="text-red-400 text-sm mt-1 py-4"
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
@@ -42,7 +42,7 @@ export default function MbLoginInput({ email, setEmail, password, setPassword, e
             setPassword(e.target.value);
             setErrors((prev) => ({ ...prev, password: "" }));
           }}
-          className="bg-neutral-100 placeholder-neutral-950/60 rounded-md"
+          className="bg-neutral-900 rounded-md py-4"
           type="password"
           placeholder="Password"
           name="password"
