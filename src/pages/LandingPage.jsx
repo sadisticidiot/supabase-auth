@@ -3,6 +3,7 @@ import { useAuth } from "../logic/AuthProvider";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase-client";
 import { motion } from "motion/react";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
 
 export default function Landing(){
   const [error, setError] = useState()
@@ -24,19 +25,6 @@ export default function Landing(){
       </div>
     )
   }
-  
-  const handleGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin
-      }
-    })
-
-    if (error) {
-      setError(error.message)
-    }
-  }
  
   return(
     <>
@@ -46,7 +34,7 @@ export default function Landing(){
         >
           <div className="absolute inset-0 bg-linear-to-b from-neutral-900/95 to-black/95" />
           <div className="flex-1 flex justify-center items-center">
-            <h1 className="text-[60px] text-white/98 z-3">imissyou</h1>
+            <h1 className="text-[60px] text-white/98 z-3">basta kay fizz 'to</h1>
           </div>
 
           <div className="w-full flex flex-col gap-2 z-3">
@@ -64,20 +52,10 @@ export default function Landing(){
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <h1>Welcome, nerd.</h1>
+            <h1>basta kay fizz 'to</h1>
             
             <Link to="/login" className="button-base">Log in</Link>
             <Link to="/signup" className="button-base">Sign up</Link>
-
-            <div className="flex w-full items-center gap-2">
-              <hr className="border-t border-white/20 mb-1 flex-1" />
-              <p className="text-white/20">OR</p>
-              <hr className="border-t border-white/20 mb-1 flex-1" />
-            </div>
-
-            <button onClick={handleGoogle} className="button-base flex gap-2 items-center justify-center">
-              Continue with google
-            </button>
             {error && <p className="text-red-400">{error}</p>}
           </motion.div>
         </div>

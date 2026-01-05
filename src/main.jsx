@@ -16,7 +16,7 @@ import ResetPass from './pages/ResetPassword.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Home from './pages/Home.jsx'
 import Posts from './pages/Posts.jsx'
-import Settings from './pages/Settings.jsx'
+import Themes from './pages/Themes.jsx'
 import Data from './pages/Data.jsx'
 
 const router = createBrowserRouter([
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
           { index: true, element: <Home />},
           { path: 'posts', element: <Posts />},
           { path: 'data', element: <Data />},
-          { path: 'settings', element: <Settings />},
+          { path: 'themes', element: <Themes />},
         ]
       }
     ]

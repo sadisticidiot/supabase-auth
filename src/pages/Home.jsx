@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../supabase-client"
 import { Link } from "react-router-dom"
-import { AnimatePresence, motion } from "motion/react"
+import { motion } from "motion/react"
+import Editor from "../ui/Editor"
+import { useAuth } from "../logic/AuthProvider"
 
 const container = {
     hidden: { opacity: 0 },
@@ -14,37 +16,12 @@ const item = {
 }
 
 export default function Home(){
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(true)
-    const [posts, setPosts] = useState([])
-
-    const fetchPosts = async () => {
-        const { data, error } = await supabase
-            .from("posts")
-            .select("*")
-            .order("created_at", {ascending: false})
-        
-        if (error){
-            setError("An error occured. Please try again.")
-            setLoading(false)
-        } else {
-            setPosts(data)
-        }
-        setLoading(false)
-    }
-
-    useEffect(() => {
-        console.log(posts)
-    }, [posts])
-
-    //Fetch posts on render
-    useEffect(() => {
-        fetchPosts()
-    }, []
-)
+    const { posts, error, fetchLoad, fetchPosts } = useAuth()
+    const [open, setOpen] = useState(false)
+    const [activePost, setActivePost] = useState(null)
 
     //Loading
-    if (loading) {
+    if (fetchLoad) {
         return(
             <motion.div
                 className="form-base relative top-10 flex flex-col align-items justify-start gap-5"
@@ -83,16 +60,36 @@ export default function Home(){
         )
     }
 
+    if (error) {
+        return(
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: [1.01, 1] }}
+                transition={{ duration: 0.2, ease: "easeOut"}}
+                className="form-base"
+            >
+                <p className="text-red-500">An unexpected error occured. </p>
+            </motion.div>
+        )
+    }
+
+    if (open) return <Editor setOpen={setOpen} activePost={activePost}/>
+
 function DesktopDisplay(){
     return(
         <motion.ul
-            className="form-base relative top-10 flex flex-col align-items justify-start gap-5"
+            className="form-base relative top-10 flex flex-col align-items justify-start gap-5 mb-5"
             variants={container}
             initial="hidden"
             animate="visible"
         >
             {posts.map(post => (
                 <motion.li
+                    key={post.id}
+                    onClick={() => {
+                        setActivePost(post.id)
+                        setOpen(true)
+                    }}
                     variants={item}
                     whileHover={{ scale: 1.01, backgroundColor: "#262626" }}
                     className="parent-base min-h-[100px] items-start cursor-pointer text-left"
@@ -108,13 +105,18 @@ function DesktopDisplay(){
 function MobileDisplay(){
     return(
         <motion.ul
-            className="form-base relative top-10 flex flex-col align-items justify-start gap-2 px-2"
+            className="form-base relative top-10 flex flex-col align-items justify-start gap-2 px-2 pb-22"
             variants={container}
             initial="hidden"
             animate="visible"
         >
             {posts.map(post => (
                 <motion.li
+                    key={post.id}
+                    onClick={() => {
+                        setActivePost(post.id)
+                        setOpen(true)
+                    }}
                     variants={item}
                     whileHover={{ scale: 1.01, backgroundColor: "#262626" }}
                     className="parent-base min-h-[100px] items-start cursor-pointer text-left w-full"

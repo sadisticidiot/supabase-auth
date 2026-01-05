@@ -4,7 +4,6 @@ import { supabase } from "../supabase-client";
 import SubmitBtn from "../ui/SubmitBtn";
 import verifyImg from "/Icon.png";
 import AuthForm from "../ui/AuthForm";
-import MobileAuth from "../ui/MobileAuth";
 import MbSignupInput from "../logic/MbSignupInput";
 import MobileSubmit from "../ui/MobileSubmit";
 import { Link } from "react-router-dom";

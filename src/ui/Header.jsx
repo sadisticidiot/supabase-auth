@@ -4,11 +4,10 @@ import {
   HomeIcon,
   BookOpenIcon,
   UserCircleIcon,
-  ArrowTrendingUpIcon,
-  Cog8ToothIcon,
-  BellIcon,
   MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+  ChartBarIcon,
+  PaintBrushIcon,
+} from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import Dropdown from "./Dropdown";
@@ -36,8 +35,8 @@ export default function Header() {
   const navItems = [
     { name: "home", path: "/dashboard", Icon: HomeIcon, label: "Home" },
     { name: "post", path: "/dashboard/posts", Icon: BookOpenIcon, label: "Posts" },
-    { name: "data", path: "/dashboard/data", Icon: ArrowTrendingUpIcon, label: "Data" },
-    { name: "settings", path: "/dashboard/settings", Icon: Cog8ToothIcon, label: "Settings" },
+    { name: "data", path: "/dashboard/data", Icon: ChartBarIcon, label: "Data" },
+    { name: "themes", path: "/dashboard/themes", Icon: PaintBrushIcon, label: "Themes" },
   ];
 
   const currentView =
@@ -89,7 +88,7 @@ export default function Header() {
   return (
     <>
       {/* HEADER */}
-      <header className="header-base px-4 py-1 gap-2 flex">
+      <header className="header-base px-4 py-8 md:py-1 gap-2 flex">
         {/* LEFT */}
         <div className="flex items-center justify-start gap-6 flex-1">
           <h1 className="hidden md:block">Test</h1>
@@ -106,15 +105,11 @@ export default function Header() {
           className="relative flex-1 flex justify-end items-center gap-5"
           ref={dropdownRef}
         >
-          <button aria-label="Notifications">
-            <BellIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
-          </button>
-
           <button
             onClick={() => setIsDropdown((p) => !p)}
             aria-label="User profile"
           >
-            <UserCircleIcon className="w-8 h-8 text-neutral-400 hover:text-neutral-200" />
+            <UserCircleIcon className="w-8 h-8 cursor-pointer text-neutral-400 hover:text-neutral-200" />
           </button>
 
           <AnimatePresence>

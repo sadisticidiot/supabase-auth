@@ -16,7 +16,7 @@ export default function AuthForm({ children, error, setError, emailLink, loading
 
                 <div className="flex w-full items-center gap-2 my-2">
                     <hr className="border-t border-white/20 flex-1" />
-                    <p className="text-white-20">OR</p>
+                    <p className="text-white/20">OR</p>
                     <hr className="border-t border-white/20 flex-1" />
                 </div>
 

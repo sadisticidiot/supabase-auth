@@ -2,10 +2,14 @@ import clsx from "clsx"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import { supabase } from "../supabase-client"
-import BaseInput from "../ui/BaseInput";
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../logic/AuthProvider"
 
 export default function Posts(){
     const textareaRef = useRef(null)
+    const navigate = useNavigate()
+
+    const { setPosts } = useAuth()
 
     const [note, setNote] = useState("")
     const [error, setError] = useState("")
@@ -52,8 +56,10 @@ export default function Posts(){
         } else {
             setNote("")
             setError("")
+            setPosts(p => [data, ...p])
         }
         setLoading(false)
+        navigate("/dashboard")
     }
 
     return(
@@ -65,7 +71,7 @@ export default function Posts(){
                     "p-1 box-border border-0 rounded-xl max-w-[300px]",
                     {"border-1 border-neutral-900": note}
                 )}
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 1, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut"}}
             >
@@ -122,7 +128,6 @@ export default function Posts(){
                 }
                 </AnimatePresence>
             </motion.form>
-
-            </div>
+        </div>
     )
 }
